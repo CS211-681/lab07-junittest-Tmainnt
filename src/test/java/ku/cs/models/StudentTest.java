@@ -8,10 +8,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class StudentTest {
 
     Student s;
+    StudentList slist;
 
     @BeforeEach
     void setUp(){
         s = new Student("6710405338", "Test1");
+    }
+    @BeforeEach
+    void setUpList() {
+        slist = new StudentList();
+        slist.addNewStudent("6710405338", "Test2");
+        slist.addNewStudent("6710405331", "Test3");
     }
 
     @Test
@@ -38,6 +45,7 @@ class StudentTest {
     @Test
     @DisplayName("ทดสอบ isId")
     void TestIsId(){
+
         assertEquals(false, s.isId("6710405339"));
     }
 
@@ -46,4 +54,45 @@ class StudentTest {
     void TestIsNameContains(){
         assertEquals(false, s.isNameContains("Nobita"));
     }
+
+    /*@Test
+    @DisplayName("")
+    */
+
+    @Test
+    @DisplayName("ทดสอบ class Student list method findStudentId")
+    void TestFindStudentById(){
+        assertNotEquals(null, slist.findStudentById("6710405338"));
+    }
+
+    @Test
+    @DisplayName("ทดสอบ class Student list method filterByName")
+    void TestFilterByName(){
+        assertNotEquals(null, slist.filterByName("Test2"));
+    }
+
+    @Test
+    @DisplayName("ทดสอบ class Student list method giveScoreToId")
+    void TestGiveScoreToId(){
+        Student student = slist.findStudentById("6710405338");
+        assertNotNull(student);
+
+        assertEquals(0.0, student.getScore());
+        slist.giveScoreToId("6710405338", 20.56);
+        assertEquals(20.56, student.getScore());
+    }
+
+    @Test
+    @DisplayName("ทดสอบ class Student list method viewGradeOfId")
+    void TestViewGradeOfId(){
+        Student student = slist.findStudentById("6710405338");
+        assertNotNull(student);
+
+        slist.giveScoreToId("6710405338", 50.65);
+        assertEquals(50.65, student.getScore());
+        assertEquals("D",  student.getGrade());
+    }
+
+
+
 }
